@@ -2,9 +2,9 @@ import type { ReactNode } from "react";
 
 const navGroups = [
   {
-    title: "开始",
+    title: "概览",
     items: [
-      ["文档说明", "overview"],
+      ["系统定位", "overview"],
       ["系统全景", "architecture"],
       ["部署前准备", "prerequisites"],
     ],
@@ -13,8 +13,8 @@ const navGroups = [
     title: "搭建",
     items: [
       ["部署步骤", "deployment"],
-      ["镜像如何生成", "image-build"],
-      ["容器如何启动", "startup"],
+      ["镜像构建机制", "image-build"],
+      ["运行时启动机制", "startup"],
     ],
   },
   {
@@ -26,10 +26,10 @@ const navGroups = [
     ],
   },
   {
-    title: "完成",
+    title: "数据与验证",
     items: [
       ["数据与持久化", "persistence"],
-      ["部署验收", "acceptance"],
+      ["部署验证", "acceptance"],
     ],
   },
 ] as const;
@@ -38,7 +38,7 @@ const topLinks = [
   ["系统全景", "architecture"],
   ["部署步骤", "deployment"],
   ["三条工作流", "ingestion"],
-  ["验收清单", "acceptance"],
+  ["部署验证", "acceptance"],
 ] as const;
 
 function CodeBlock({ children, label = "Terminal" }: { children: string; label?: string }) {
@@ -124,8 +124,8 @@ export default function Home() {
 
       <aside className="sidebar" aria-label="章节导航">
         <div className="sidebar-intro">
-          <p>部署与原理</p>
-          <span>从空白主机到可用知识库</span>
+          <p>系统架构与部署</p>
+          <span>AnythingLLM · RAG · TDengine</span>
         </div>
         {navGroups.map((group) => (
           <section key={group.title}>
@@ -134,27 +134,28 @@ export default function Home() {
           </section>
         ))}
         <div className="sidebar-note">
-          <b>阅读建议</b>
-          <p>第一次接手，请按目录从上到下阅读；实际部署时可直接从“部署步骤”开始。</p>
+          <b>适用基线</b>
+          <p>v1.15.0-sc.1 生产部署基线。适用于新环境搭建、系统接手与运行机制审阅。</p>
         </div>
       </aside>
 
       <main>
         <section className="hero" id="overview">
-          <div className="hero-kicker"><span /> DEPLOYMENT GUIDE · 2026-08-03</div>
-          <h1>尚宸智能体知识库<br /><em>部署与工作原理</em></h1>
+          <div className="hero-kicker"><span /> SYSTEM ARCHITECTURE · DEPLOYMENT BASELINE</div>
+          <h1>尚宸智能体知识库<br /><em>架构、部署与运行机制</em></h1>
           <p className="hero-lead">
-            这是一份面向接手人的部署指南：讲清楚系统由什么组成、如何在新环境中搭起来，
-            以及文档入库、RAG 问答和 TDengine SQL Agent 三条核心链路如何协作。
+            尚宸智能体知识库是一套基于 AnythingLLM 的企业知识检索与数据分析系统。
+            平台将多格式文档处理、向量检索、DeepSeek 推理与 TDengine 时序数据查询集成到统一工作区，
+            提供带来源引用的知识问答，以及由 Agent 驱动的结构化数据分析能力。
           </p>
           <div className="hero-actions">
-            <a className="primary-button" href="#deployment">开始部署 <span>→</span></a>
-            <a className="text-button" href="#architecture">先理解架构</a>
+            <a className="primary-button" href="#deployment">部署流程 <span>→</span></a>
+            <a className="text-button" href="#architecture">系统能力与架构</a>
           </div>
           <div className="scope-strip">
-            <div><b>部署形态</b><span>Docker Compose · 单容器</span></div>
-            <div><b>应用基线</b><span>AnythingLLM 1.15.0</span></div>
-            <div><b>定制能力</b><span>TDengine SQL Agent</span></div>
+            <div><b>系统定位</b><span>企业知识检索与数据分析</span></div>
+            <div><b>应用内核</b><span>AnythingLLM 1.15.0</span></div>
+            <div><b>核心能力</b><span>RAG · TDengine SQL Agent</span></div>
           </div>
         </section>
 
@@ -162,24 +163,25 @@ export default function Home() {
           <div className="summary-card">
             <span className="summary-icon">i</span>
             <div>
-              <h2>先记住一句话</h2>
+              <h2>系统定位与实现边界</h2>
               <p>
-                当前仓库不是 AnythingLLM 的完整源码，而是一套<strong>无密钥、无业务数据的生产部署基线</strong>：
-                它以固定版本的官方镜像为底座，在构建阶段注入 TDengine 连接器，再通过 Docker Compose 运行。
+                部署仓库承载的是<strong>无密钥、无业务数据的生产部署基线</strong>，而非 AnythingLLM 完整应用源码。
+                系统以固定摘要的官方镜像作为运行底座，在镜像构建阶段注入 TDengine Connector 与前端数据源入口，
+                运行时通过单容器 Compose 编排主服务和文档采集器。
               </p>
             </div>
           </div>
           <div className="boundary-grid">
-            <article><span>01</span><h3>主应用</h3><p>AnythingLLM 提供页面、API、用户、工作区、RAG 与 Agent。</p></article>
-            <article><span>02</span><h3>本地数据</h3><p>SQLite、LanceDB 和解析后的文档都保存在宿主机 storage。</p></article>
-            <article><span>03</span><h3>外部能力</h3><p>DeepSeek、Embedding 服务和 TDengine 均通过网络调用。</p></article>
-            <article><span>04</span><h3>定制层</h3><p>仓库只维护部署配置、版本锁定和 TDengine 扩展代码。</p></article>
+            <article><span>01 · INGEST</span><h3>知识内容处理</h3><p>支持文档、表格、PDF、图像与音视频解析，并输出标准化文档 JSON。</p></article>
+            <article><span>02 · RETRIEVAL</span><h3>可溯源 RAG</h3><p>按工作区构建向量索引，结合阈值、topN 与可选 rerank 生成引用式回答。</p></article>
+            <article><span>03 · AGENT</span><h3>时序数据分析</h3><p>SQL Agent 将自然语言任务映射为 TDengine Schema 探查和只读查询。</p></article>
+            <article><span>04 · WORKSPACE</span><h3>工作区治理</h3><p>统一管理用户、工作区、系统提示词、聊天记录、文档关系与模型配置。</p></article>
           </div>
         </section>
 
         <section className="content-section" id="architecture">
           <ChapterHeading eyebrow="01 · Architecture" title="系统全景">
-            用户只面对 AnythingLLM，但一次完整的知识库请求会在主服务、采集器、本地数据和外部模型之间流转。
+            AnythingLLM 主服务承担统一入口与业务编排，Collector、本地持久化层、模型服务和 TDengine 分别提供内容处理、检索状态、推理与外部数据访问能力。
           </ChapterHeading>
 
           <div className="architecture-board" role="img" aria-label="尚宸知识库逻辑架构图">
@@ -226,7 +228,7 @@ export default function Home() {
 
         <section className="content-section" id="prerequisites">
           <ChapterHeading eyebrow="02 · Preparation" title="部署前准备">
-            在执行命令前，先确认主机、网络、密钥和持久化边界。这里不满足，容器即使启动也无法完成问答。
+            部署前应完成运行环境、镜像来源、外部依赖、网络策略和密钥材料的确认。这些条件共同构成系统可运行基线。
           </ChapterHeading>
           <div className="check-grid">
             <div className="check-card">
@@ -249,8 +251,8 @@ export default function Home() {
         </section>
 
         <section className="content-section deployment-section" id="deployment">
-          <ChapterHeading eyebrow="03 · Installation" title="从空白主机开始部署">
-            以下流程创建一个全新的空实例，不恢复旧用户、聊天或知识库数据。命令中的地址、模型名与密钥均需替换为实际受控值。
+          <ChapterHeading eyebrow="03 · Installation" title="新环境部署流程">
+            本节描述从生产基线创建全新实例的标准过程，不包含历史业务数据恢复。仓库地址、模型标识与密钥均以受控环境中的实际配置为准。
           </ChapterHeading>
 
           <div className="steps">
@@ -267,37 +269,37 @@ export default function Home() {
             </Step>
 
             <Step number="03" title="填写外部服务与安全配置">
-              <p>LLM 与 Embedding 是两条独立链路。模型 ID 必须以供应商当前实际返回的可用列表为准，不要照抄未验证的示例模型名。</p>
+              <p>LLM 与 Embedding 属于相互独立的服务链路。模型 ID 应以供应商当前返回的可用模型清单为准，不得直接沿用未经验证的示例值。</p>
               <CodeBlock label="storage/.env">{`LLM_PROVIDER=deepseek\nDEEPSEEK_API_KEY=<secret>\nDEEPSEEK_MODEL_PREF=<validated-chat-model-id>\n\nEMBEDDING_ENGINE=generic-openai\nEMBEDDING_BASE_PATH=<openai-compatible-endpoint>\nEMBEDDING_MODEL_PREF=<validated-embedding-model-id>\nGENERIC_OPEN_AI_EMBEDDING_API_KEY=<secret>\n\nVECTOR_DB=lancedb\nSTORAGE_DIR=/app/server/storage\nJWT_SECRET=<random-hex>\nSIG_KEY=<random-hex>\nSIG_SALT=<random-hex>\nAUTH_TOKEN=<strong-admin-password>\nDISABLE_TELEMETRY=true`}</CodeBlock>
             </Step>
 
             <Step number="04" title="确认目录权限">
-              <p>基础镜像默认使用非 root 用户。先确认镜像内 UID/GID，再让该用户拥有 <code>storage/</code> 的读写权限；当前基线通常为 1000:1000。</p>
+              <p>基础镜像默认以非 root 用户运行。应在确认镜像内 UID/GID 后授予其对 <code>storage/</code> 的读写权限；当前基线通常为 1000:1000。</p>
               <CodeBlock>{`# 仅在确认容器用户 UID/GID 后执行\nsudo chown -R 1000:1000 storage\nsudo chmod 700 storage\nsudo chmod 600 storage/.env`}</CodeBlock>
             </Step>
 
             <Step number="05" title="展开配置并构建定制镜像">
-              <p>先让 Compose 展开最终配置，再从固定官方镜像构建 TDengine 定制层。构建日志应明确提示后端与前端入口均已补丁成功。</p>
+              <p>使用 Compose 展开并审阅最终配置，随后从固定官方镜像构建 TDengine 定制层。构建日志应确认后端 Connector 与前端数据源入口均已完成注入。</p>
               <CodeBlock>{`docker compose config\ndocker compose build --no-cache\n\ndocker image inspect anythingllm-tdengine:1.15.0 \\\n  --format '{{.Id}}'`}</CodeBlock>
-              <aside className="inline-callout"><b>为什么要构建？</b><span>标准 AnythingLLM 镜像不认识 TDengine。构建过程会把连接器、图标和注册入口注入镜像。</span></aside>
+              <aside className="inline-callout"><b>构建目的</b><span>标准 AnythingLLM 镜像不包含 TDengine 数据源。定制构建负责注入 Connector、图标与注册入口。</span></aside>
             </Step>
 
             <Step number="06" title="启动并完成首次初始化">
-              <p>容器启动后，先检查状态与健康接口，再通过受控网络打开页面完成 onboarding。</p>
+              <p>容器启动后应核验进程状态与健康端点，并通过受控网络访问管理界面完成初始化配置。</p>
               <CodeBlock>{`docker compose up -d\ndocker compose ps\ndocker logs --tail 200 anythingllm\ncurl -fsS http://127.0.0.1:3001/api/ping`}</CodeBlock>
               <ol className="compact-list">
                 <li>完成管理员登录保护；</li>
                 <li>确认 LLM、Embedding 和 LanceDB 配置；</li>
                 <li>创建测试 workspace，上传一份非敏感文档；</li>
                 <li>用 Query 模式提问并确认回答带有来源；</li>
-                <li>最后再用只读账号配置 TDengine SQL Agent。</li>
+                <li>使用数据库侧只读账号配置并验证 TDengine SQL Agent。</li>
               </ol>
             </Step>
           </div>
         </section>
 
         <section className="content-section split-section" id="image-build">
-          <ChapterHeading eyebrow="04 · Build Principle" title="镜像如何生成">
+          <ChapterHeading eyebrow="04 · Build Principle" title="镜像构建机制">
             当前方案不是重新编译整套 AnythingLLM，而是在固定官方镜像上增加一层可审计的 TDengine 定制。
           </ChapterHeading>
           <div className="pipeline horizontal-pipeline">
@@ -310,15 +312,15 @@ export default function Home() {
             <FlowNode index="4" title="生成定制镜像" detail="anythingllm-tdengine:1.15.0" />
           </div>
           <div className="explain-cards">
-            <article><h3>为什么使用 digest</h3><p>tag 可能被重新指向，digest 对应确定的镜像内容。这样同一部署基线不会在未来悄悄换成别的上游版本。</p></article>
-            <article><h3>为什么补丁会主动失败</h3><p>脚本要求每个目标字符串只出现一次。上游结构变化时会停止构建，避免生成“只补了一半”的镜像。</p></article>
-            <article><h3>为什么最终切回非 root</h3><p>构建阶段需要写入镜像文件；运行阶段回到 <code>anythingllm</code> 用户，减少应用进程权限。</p></article>
+            <article><h3>镜像内容寻址</h3><p>tag 可能被重新指向，digest 则对应确定的镜像内容，用于保证部署基线引用的上游制品不发生隐式漂移。</p></article>
+            <article><h3>补丁完整性门禁</h3><p>脚本要求每个目标字符串仅出现一次；当上游结构变化时立即终止构建，防止产生不完整的定制镜像。</p></article>
+            <article><h3>运行时最小权限</h3><p>构建阶段以 root 写入镜像文件，运行阶段切换回 <code>anythingllm</code> 用户，以限制应用进程权限。</p></article>
           </div>
         </section>
 
         <section className="content-section" id="startup">
-          <ChapterHeading eyebrow="05 · Runtime" title="容器如何启动">
-            一个容器里有两个并行进程。主服务管理用户与问答，Collector 专门处理文档；任一进程退出，容器整体退出并由 Compose 重启。
+          <ChapterHeading eyebrow="05 · Runtime" title="运行时启动机制">
+            容器入口并行启动 Server 与 Collector 两个 Node.js 进程，并通过 <code>wait -n</code> 统一管理生命周期；任一子进程退出都会触发容器退出及 Compose 重启策略。
           </ChapterHeading>
           <div className="startup-rail">
             <div className="startup-entry"><span>ENTRYPOINT</span><b>容器启动</b></div>
@@ -346,7 +348,7 @@ export default function Home() {
 
         <section className="content-section workflow-section" id="ingestion">
           <ChapterHeading eyebrow="06 · Workflow A" title="文档上传、解析与入库">
-            上传文件只是开始。真正成为可检索知识，需要经过解析、持久化、切片、向量化和关系登记。
+            文档进入知识库需要依次完成临时接收、签名转交、类型化解析、标准化持久化、文本切片、向量生成和工作区关系登记。
           </ChapterHeading>
           <div className="workflow-card">
             <div className="workflow-title"><span>A</span><div><b>Ingestion Pipeline</b><small>原始文件 → 可检索知识</small></div></div>
@@ -361,15 +363,15 @@ export default function Home() {
           </div>
           <div className="detail-list">
             <article><span>解析</span><p>Collector 按文件类型提取正文；扫描 PDF 在没有数字文本时尝试 OCR，音视频通过转写服务生成文本。</p></article>
-            <article><span>持久化</span><p>解析后的标准 JSON 保存在 <code>storage/documents</code>。hotdir 只是临时目录，容器重启会清理。</p></article>
+            <article><span>持久化</span><p>解析后的标准 JSON 保存在 <code>storage/documents</code>；hotdir 仅承担临时接收功能，并在 Collector 启动时清理。</p></article>
             <article><span>向量化</span><p>Server 读取 <code>pageContent</code>，按系统设置切片，调用兼容 OpenAI 的 Embedding API，再写入 LanceDB。</p></article>
             <article><span>登记</span><p>SQLite 同时记录文档与 workspace 的关系、文档 ID 与向量 ID 的映射，保证后续引用和删除可追踪。</p></article>
           </div>
         </section>
 
         <section className="content-section workflow-section" id="rag">
-          <ChapterHeading eyebrow="07 · Workflow B" title="RAG 问答如何产生答案">
-            RAG 不会把整个知识库塞给模型，而是先把问题转成向量，找到最相近的切片，再把少量相关上下文交给大模型。
+          <ChapterHeading eyebrow="07 · Workflow B" title="RAG 检索与生成流程">
+            查询阶段以问题向量为检索入口，从工作区 LanceDB namespace 中选取候选切片，经阈值过滤与可选重排后组装模型上下文，并返回带来源信息的流式响应。
           </ChapterHeading>
           <div className="workflow-card dark-card">
             <div className="workflow-title"><span>B</span><div><b>Retrieval-Augmented Generation</b><small>问题 → 检索 → 上下文 → 回答</small></div></div>
@@ -392,8 +394,8 @@ export default function Home() {
         </section>
 
         <section className="content-section workflow-section" id="tdengine">
-          <ChapterHeading eyebrow="08 · Workflow C" title="TDengine SQL Agent 如何工作">
-            这条链路独立于 RAG。Agent 把自然语言意图转为工具调用，通过定制 Connector 查询外部 TDengine，再把结果交还模型组织答案。
+          <ChapterHeading eyebrow="08 · Workflow C" title="TDengine SQL Agent 调用链">
+            TDengine 扩展独立于向量检索链路。Agent 根据自然语言任务调用数据库发现、Schema 获取与 SQL 查询工具，Connector 通过 taosAdapter REST 接口执行请求并将结构化结果返回模型。
           </ChapterHeading>
           <div className="td-flow">
             <div><span>USER</span><b>@agent 自然语言问题</b></div><i>→</i>
@@ -414,13 +416,13 @@ export default function Home() {
           </div>
           <aside className="callout danger">
             <b>必须使用数据库侧只读账号</b>
-            <p>当前代码不会在执行前强制拦截写入 SQL；工具说明虽要求 SELECT，Connector 仍会把完整 SQL 原样发送给 TDengine。生产必须靠最小权限账号、网络控制和数据库审计兜底。</p>
+            <p>当前实现未在执行层强制限制 SQL 类型；即使工具描述要求 SELECT，Connector 仍会将完整 SQL 原样发送至 TDengine。生产环境必须使用最小权限账号，并结合网络控制与数据库审计形成约束。</p>
           </aside>
         </section>
 
         <section className="content-section" id="persistence">
           <ChapterHeading eyebrow="09 · Data" title="数据与持久化边界">
-            镜像可以重建，<code>storage/</code> 不能凭空恢复。对这套系统来说，storage 才是生产数据本体。
+            镜像属于可重建运行制品；<code>storage/</code> 承载配置、业务元数据、解析正文、向量索引与密钥材料，是生产恢复和迁移的一致性边界。
           </ChapterHeading>
           <div className="storage-layout">
             <div className="folder-tree">
@@ -436,7 +438,7 @@ export default function Home() {
             </div>
             <div className="consistency-card">
               <span>ONE DOCUMENT · THREE STATES</span>
-              <h3>一篇已入库文档跨越三类状态</h3>
+              <h3>单文档的三类持久化状态</h3>
               <ol><li><b>documents JSON</b><small>可审计、可重新切片的解析正文</small></li><li><b>SQLite 关系</b><small>文档、workspace 与向量 ID 的映射</small></li><li><b>LanceDB 向量</b><small>实际用于相似度检索的数据</small></li></ol>
               <p>只复制其中一部分，会留下孤儿记录、缺失引用或无法重建的问题。因此迁移和恢复应把整个 storage 作为同一个一致性单元。</p>
             </div>
@@ -444,25 +446,30 @@ export default function Home() {
         </section>
 
         <section className="content-section final-section" id="acceptance">
-          <ChapterHeading eyebrow="10 · Verification" title="部署验收清单">
-            验收目标不是“容器在运行”，而是验证用户能够完成一条真实、可引用、可追踪的知识库问答。
+          <ChapterHeading eyebrow="10 · Verification" title="部署验证基线">
+            部署验证应覆盖运行时、身份与配置、模型依赖、知识入库、检索回答以及可选 SQL Agent 链路，并保留可复核的验证证据。
           </ChapterHeading>
-          <div className="acceptance-list">
-            <label><input type="checkbox" /><span><b>01 · 服务可达</b><small>Compose 显示容器运行，<code>/api/ping</code> 返回成功。</small></span></label>
-            <label><input type="checkbox" /><span><b>02 · 登录受控</b><small>onboarding 已完成，管理员入口有强密码或组织级认证保护。</small></span></label>
-            <label><input type="checkbox" /><span><b>03 · 模型链路</b><small>DeepSeek 模型可用，Embedding API 能返回与配置一致的向量。</small></span></label>
-            <label><input type="checkbox" /><span><b>04 · 文档入库</b><small>测试文档成功解析，documents、SQLite 与 LanceDB 均产生对应状态。</small></span></label>
-            <label><input type="checkbox" /><span><b>05 · RAG 回答</b><small>Query 模式能命中测试内容，答案含正确引用来源。</small></span></label>
-            <label><input type="checkbox" /><span><b>06 · SQL Agent</b><small>如启用 TDengine，可列出 supertable、读取 Schema，并用只读账号完成有限 SELECT。</small></span></label>
+          <div className="table-wrap validation-table">
+            <table>
+              <thead><tr><th>验证层</th><th>验证内容</th><th>预期证据</th></tr></thead>
+              <tbody>
+                <tr><td><b>Runtime</b></td><td>容器状态、健康端点、Server 与 Collector 进程</td><td>Compose 状态、<code>/api/ping</code>、启动日志</td></tr>
+                <tr><td><b>Identity & Config</b></td><td>管理员认证、工作区权限、持久化配置加载</td><td>受控登录、配置快照、storage 权限记录</td></tr>
+                <tr><td><b>Model Services</b></td><td>DeepSeek 模型发现与 Chat Completion；Embedding 维度与请求链路</td><td>模型调用记录、Embedding 响应与错误率</td></tr>
+                <tr><td><b>Ingestion</b></td><td>测试文档解析、切片、向量化及工作区登记</td><td>documents JSON、SQLite 关系、LanceDB 向量</td></tr>
+                <tr><td><b>RAG Retrieval</b></td><td>Query 模式命中测试内容，引用来源与原文一致</td><td>问题、检索片段、回答与引用记录</td></tr>
+                <tr><td><b>SQL Agent</b></td><td>TDengine 连接验证、supertable 发现、Schema 与受限 SELECT</td><td>只读账号、工具调用记录、SQL 审计日志</td></tr>
+              </tbody>
+            </table>
           </div>
-          <div className="finish-banner">
-            <div><span>READY</span><h3>完成这六项，才算部署完成</h3></div>
-            <p>此后再接入反向代理、HTTPS、备份与监控；这些属于生产外围能力，不改变本文描述的核心搭建和工作流程。</p>
-          </div>
+          <aside className="callout info verification-note">
+            <b>交接记录</b>
+            <p>建议将 Compose 展开结果、镜像 ID、非敏感配置摘要、关键启动日志、RAG 测试样例及 TDengine 只读查询结果归档为本次部署基线。</p>
+          </aside>
         </section>
 
         <footer>
-          <div><b>尚宸智能体知识库</b><span>部署与工作原理 · 2026-08-03</span></div>
+          <div><b>尚宸智能体知识库</b><span>架构、部署与运行机制 · 2026-08-06</span></div>
           <p>内容重构自生产部署交接材料；排版参考 <a href="https://auto-lirpa.readthedocs.io/en/latest/?badge=latest" target="_blank" rel="noreferrer">auto_LiRPA documentation</a> 的文档导航方式。</p>
         </footer>
       </main>

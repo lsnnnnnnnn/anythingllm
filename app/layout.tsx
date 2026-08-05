@@ -18,8 +18,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host") ?? "localhost:3000";
   const protocol = requestHeaders.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
   const origin = `${protocol}://${host}`;
-  const title = "尚宸智能体知识库｜部署与工作原理";
-  const description = "从空白主机到可用知识库：AnythingLLM 部署、架构与核心工作流程说明。";
+  const title = "尚宸智能体知识库｜架构、部署与运行机制";
+  const description = "基于 AnythingLLM 的企业知识检索与数据分析系统：部署架构、镜像构建、RAG 与 TDengine SQL Agent 运行机制。";
 
   return {
     title,
@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title,
       description,
       type: "website",
-      images: [{ url: `${origin}/og.png`, width: 1200, height: 630, alt: "尚宸智能体知识库部署与工作原理" }],
+      images: [{ url: `${origin}/og.png`, width: 1200, height: 630, alt: "尚宸智能体知识库架构、部署与运行机制" }],
     },
     twitter: {
       card: "summary_large_image",
