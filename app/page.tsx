@@ -109,11 +109,13 @@ function FlowNode({
 }
 
 export default function Home() {
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
   return (
     <div className="site-shell">
       <header className="topbar">
         <a className="brand" href="#overview" aria-label="返回文档开头">
-          <img className="brand-logo" src="/shsc-fund-logo.svg" alt="尚宸基金" />
+          <img className="brand-logo" src={`${basePath}/shsc-fund-logo.svg`} alt="尚宸基金" />
           <span><b>尚宸知识库</b><small>部署文档</small></span>
         </a>
         <nav aria-label="顶部导航">

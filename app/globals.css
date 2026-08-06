@@ -27,6 +27,8 @@
   --sidebar-width: 258px;
   --rail-width: 196px;
   --topbar-height: 68px;
+  --font-geist-sans: "Helvetica Neue", Arial;
+  --font-geist-mono: "SFMono-Regular", Consolas;
 }
 
 * { box-sizing: border-box; }
