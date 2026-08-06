@@ -58,14 +58,13 @@ code { padding: .12rem .34rem; border-radius: 5px; background: #edf3f9; color: v
   backdrop-filter: blur(14px);
 }
 .brand { display: flex; align-items: center; gap: 11px; min-width: calc(var(--sidebar-width) - 8px); }
-.brand-mark { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: var(--copf-blue); color: white; font-size: 12px; font-weight: 800; letter-spacing: .08em; box-shadow: 0 5px 16px rgba(60,102,170,.18); }
+.brand-logo { display: block; width: auto; height: 46px; flex: 0 0 auto; }
 .brand > span:last-child { display: flex; flex-direction: column; line-height: 1.2; }
 .brand b { font-size: 14px; letter-spacing: .02em; }
 .brand small { color: var(--muted); font-size: 10px; margin-top: 3px; letter-spacing: .16em; text-transform: uppercase; }
 .topbar nav { display: flex; align-items: center; gap: 28px; margin-right: auto; }
 .topbar nav a { color: #5e6875; font-size: 13px; font-weight: 550; transition: color .2s; }
 .topbar nav a:hover { color: var(--green); }
-.version-badge { border: 1px solid #c8d7e7; border-radius: 999px; padding: 5px 11px; color: var(--copf-blue); background: #f5f8fc; font-size: 11px; font-weight: 650; letter-spacing: .02em; }
 
 .sidebar {
   position: fixed;
@@ -298,12 +297,6 @@ td b { color: var(--ink); }
 .validation-table tbody tr:nth-child(even) { background: #f8fafc; }
 .validation-table td:first-child { width: 145px; color: var(--copf-blue); font-family: var(--font-geist-mono); }
 .verification-note { margin-top: 24px; }
-footer { display: flex; justify-content: space-between; gap: 30px; padding: 35px clamp(42px, 7vw, 98px) 50px; background: var(--soft-gray); color: var(--muted); }
-footer div { display: flex; flex-direction: column; }
-footer b { color: var(--ink); font-size: 11px; }
-footer span, footer p { margin: 0; font-size: 9px; }
-footer a { color: var(--copf-blue); border-bottom: 1px solid #9db4cf; }
-
 @media (max-width: 1180px) {
   :root { --rail-width: 0px; }
   .right-rail { display: none; }
@@ -316,7 +309,6 @@ footer a { color: var(--copf-blue); border-bottom: 1px solid #9db4cf; }
   .brand { min-width: auto; }
   .topbar { padding: 0 20px; }
   .topbar nav { display: none; }
-  .version-badge { margin-left: auto; }
   main { margin-left: 0; }
   .hero { padding-top: 125px; }
   .boundary-grid { grid-template-columns: 1fr 1fr; }
@@ -329,7 +321,6 @@ footer a { color: var(--copf-blue); border-bottom: 1px solid #9db4cf; }
 @media (max-width: 620px) {
   body { font-size: 14px; }
   .topbar { height: 62px; }
-  .version-badge { display: none; }
   .hero { padding: 112px 22px 0; }
   .hero h1 { font-size: 39px; }
   .hero-lead { font-size: 14px; }

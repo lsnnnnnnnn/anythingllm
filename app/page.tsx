@@ -113,13 +113,12 @@ export default function Home() {
     <div className="site-shell">
       <header className="topbar">
         <a className="brand" href="#overview" aria-label="返回文档开头">
-          <span className="brand-mark">SC</span>
+          <img className="brand-logo" src="/shsc-fund-logo.svg" alt="尚宸基金" />
           <span><b>尚宸知识库</b><small>部署文档</small></span>
         </a>
         <nav aria-label="顶部导航">
           {topLinks.map(([label, id]) => <a key={id} href={`#${id}`}>{label}</a>)}
         </nav>
-        <span className="version-badge">AnythingLLM 1.15.0</span>
       </header>
 
       <aside className="sidebar" aria-label="章节导航">
@@ -141,7 +140,7 @@ export default function Home() {
 
       <main>
         <section className="hero" id="overview">
-          <div className="hero-kicker"><span /> SYSTEM ARCHITECTURE · DEPLOYMENT BASELINE</div>
+          <div className="hero-kicker"><span /> SHSC FUND: AGENTIC KNOWLEDGE BASE</div>
           <h1>尚宸智能体知识库<br /><em>架构、部署与运行机制</em></h1>
           <p className="hero-lead">
             尚宸智能体知识库是一套基于 AnythingLLM 的企业知识检索与数据分析系统。
@@ -468,9 +467,6 @@ export default function Home() {
           </aside>
         </section>
 
-        <footer>
-          <div><b>尚宸智能体知识库</b><span>架构、部署与运行机制 · 2026-08-06</span></div>
-        </footer>
       </main>
 
       <aside className="right-rail" aria-label="本页目录">
