@@ -470,7 +470,6 @@ export default function Home() {
 
         <footer>
           <div><b>尚宸智能体知识库</b><span>架构、部署与运行机制 · 2026-08-06</span></div>
-          <p>内容重构自生产部署交接材料；排版参考 <a href="https://auto-lirpa.readthedocs.io/en/latest/?badge=latest" target="_blank" rel="noreferrer">auto_LiRPA documentation</a> 的文档导航方式。</p>
         </footer>
       </main>
 
